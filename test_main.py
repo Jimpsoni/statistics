@@ -3,6 +3,11 @@ from statistics import Statistics
 
 
 class TestStatistics(unittest.TestCase):
+    def test_statistics(self):
+        self.assertRaises(ValueError, Statistics, "Hello")
+        self.assertRaises(TypeError, Statistics, [])
+        self.assertRaises(TypeError, Statistics, [1])
+        
     def test_mean(self):
         # Test that method calculates mean correctly
         stats = Statistics([1, 2, 3, 4, 5, 6])
