@@ -10,6 +10,12 @@ from math import sqrt
 
 class Statistics:
     def __init__(self, data):
+        if type(data) != list:
+            raise ValueError("Datatype has to be a list")
+
+        if len(data) < 2:
+            raise TypeError("Data set has to have at least 2 data points")
+
         self.data = data
         pd.set_option("display.max_rows", None, "display.max_columns", None)
 
@@ -156,3 +162,31 @@ class Statistics:
         :return: the score
         """
         return (value - self.mean()) / self.standard_deviation(sample=sample)
+
+    def describe_set(self):
+        """
+        This functions purpose is to describe the dataset to us by calculating all the different
+        features of that data set. It prints all the values to console.
+        """
+        print(f"Length of the set: {len(self.data)}\n")
+        print(f"Mean: {self.mean()}")
+        print(f"Median: {self.median()}")
+        print(f"Mode: {self.mode()}\n")
+        print(f"Variance: {round(self.variance(), 2)}")
+        print(f"Standard Deviation: {round(self.standard_deviation(), 2)}")
+        print(f"Coefficient of Variance: {round(self.coeffiecient_of_variation(), 2)}\n")
+        print(f"Five number summary: {self.five_number_summary()}")
+
+    def __repr__(self):
+        if len(self.data) < 11:
+            return f"Statistics[{self.data}]"
+        else:
+            return f"Statistics[{self.data[0]}, {self.data[1]}, ... {self.data[-2]}, {self.data[-1]}]"
+
+    def __add__(self, obj):
+        if type(obj) == list:
+            return Statistics(self.data + obj)
+        elif type(obj) == Statistics:
+            return Statistics(self.data + obj.data)
+        else:
+            raise TypeError(f"Type has to be list or Statistics, not {type(obj)}")
